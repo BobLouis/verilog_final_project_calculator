@@ -170,7 +170,7 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
             ////////////////////////////////////////////////////////////////////////////////////// SECTION 2
             else if (counter_y >= 50 && counter_y < 55)
                 begin 
-                    if (counter_x >= 50 && counter_x < 590)
+                    if (counter_x >= 194 && counter_x < 704)
                         begin 
                             tmp_r <= 4'hF;    // white
                             tmp_b <= 4'hF;
@@ -188,13 +188,13 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
             ////////////////////////////////////////////////////////////////////////////////////// SECTION 3
             else if (counter_y >= 55 && counter_y < 105)
                 begin   
-                    if (counter_x >= 50 && counter_x < 55)
+                    if (counter_x >= 194 && counter_x < 199)
                         begin 
                             tmp_r <= 4'hF;    // white
                             tmp_b <= 4'hF;
                             tmp_g <= 4'hF;
                         end  // else if (counter_x >= 324 && counter_x < 371)
-                    else if (counter_x >= 585 && counter_x < 590)
+                    else if (counter_x >= 699 && counter_x < 704)
                         begin 
                             tmp_r <= 4'hF;    // white
                             tmp_b <= 4'hF;
@@ -212,7 +212,7 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
             ////////////////////////////////////////////////////////////////////////////////////// SECTION 4
             else if (counter_y >= 105 && counter_y < 110)
                 begin 
-                    if (counter_x >= 50 && counter_x < 590)
+                    if (counter_x >= 194 && counter_x < 704)
                         begin 
                             tmp_r <= 4'hF;    // white
                             tmp_b <= 4'hF;
@@ -224,7 +224,14 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                             tmp_b <= 4'h0;
                             tmp_g <= 4'h0;
                         end  
-                    end 
+                end 
+						  
+				else 
+					begin 
+						tmp_r <= 4'h0;    // black
+                  tmp_b <= 4'h0;
+						tmp_g <= 4'h0;
+					end
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 4
             
             ////////////////////////////////////////////////////////////////////////////////////// SECTION 5
@@ -295,7 +302,7 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
         //             tmp_g <= 4'hF;
         //         end  // if (counter_y >= 414)
 		// 	////////////////////////////////////////////////////////////////////////////////////// END SECTION 7
-		// end  // always
+	 end  // always
 						
 	// end pattern generate
         
