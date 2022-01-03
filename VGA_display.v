@@ -161,9 +161,9 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
             ////////////////////////////////////////////////////////////////////////////////////// SECTION 1
             if (counter_y < 135)
                 begin              
-                    r_red <= 4'hF;    // white
-                    r_blue <= 4'hF;
-                    r_green <= 4'hF;
+                    tmp_r <= 4'hF;    // white
+                    tmp_b <= 4'hF;
+                    tmp_g <= 4'hF;
                 end  // if (counter_y < 135)
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 1
             
@@ -172,21 +172,21 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                 begin 
                     if (counter_x < 324)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // if (counter_x < 324)
                     else if (counter_x >= 324 && counter_x < 604)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 324 && counter_x < 604)
                     else if (counter_x >= 604)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 604)
                     end  // else if (counter_y >= 135 && counter_y < 205)
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 2
@@ -196,45 +196,45 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                 begin 
                     if (counter_x < 324)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // if (counter_x < 324)
                     else if (counter_x >= 324 && counter_x < 371)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 324 && counter_x < 371)
                     else if (counter_x >= 371 && counter_x < 383)
                         begin 
-                            r_red <= 4'h0;    // black
-                            r_blue <= 4'h0;
-                            r_green <= 4'h0;
+                            tmp_r <= 4'h0;    // black
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'h0;
                         end  // else if (counter_x >= 371 && counter_x < 383)
                     else if (counter_x >= 383 && counter_x < 545)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 383 && counter_x < 545)
                     else if (counter_x >= 545 && counter_x < 557)
                         begin 
-                            r_red <= 4'h0;    // black
-                            r_blue <= 4'h0;
-                            r_green <= 4'h0;
+                            tmp_r <= 4'h0;    // black
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'h0;
                         end  // else if (counter_x >= 545 && counter_x < 557)
                     else if (counter_x >= 557 && counter_x < 604)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 557 && counter_x < 604)
                     else if (counter_x >= 604)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 604)
                 end  // else if (counter_y >= 205 && counter_y < 217)
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 3
@@ -244,21 +244,21 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                 begin
                     if (counter_x < 324)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // if (counter_x < 324)
                     else if (counter_x >= 324 && counter_x < 604)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 324 && counter_x < 604)
                     else if (counter_x >= 604)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 604)	
                 end  // else if (counter_y >= 217 && counter_y < 305)
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 4
@@ -268,33 +268,33 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                 begin
                     if (counter_x < 324)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // if (counter_x < 324)
                     else if (counter_x >= 324 && counter_x < 371)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 324 && counter_x < 371)
                     else if (counter_x >= 371 && counter_x < 557)
                         begin 
-                            r_red <= 4'h0;    // black
-                            r_blue <= 4'h0;
-                            r_green <= 4'h0;
+                            tmp_r <= 4'h0;    // black
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'h0;
                         end  // else if (counter_x >= 371 && counter_x < 557)
                     else if (counter_x >= 557 && counter_x < 604)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 557 && counter_x < 604)
                     else if (counter_x >= 604)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 604)	
                 end  // else if (counter_y >= 217 && counter_y < 305)
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 5
@@ -304,21 +304,21 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                 begin
                     if (counter_x < 324)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // if (counter_x < 324)
                     else if (counter_x >= 324 && counter_x < 604)
                         begin 
-                            r_red <= 4'hF;    // yellow
-                            r_blue <= 4'h0;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // yellow
+                            tmp_b <= 4'h0;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 324 && counter_x < 604)
                     else if (counter_x >= 604)
                         begin 
-                            r_red <= 4'hF;    // white
-                            r_blue <= 4'hF;
-                            r_green <= 4'hF;
+                            tmp_r <= 4'hF;    // white
+                            tmp_b <= 4'hF;
+                            tmp_g <= 4'hF;
                         end  // else if (counter_x >= 604)	
                 end  // else if (counter_y >= 305 && counter_y < 414)
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 6
@@ -326,9 +326,9 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
             ////////////////////////////////////////////////////////////////////////////////////// SECTION 7
             else if (counter_y <= 414)
                 begin              
-                    r_red <= 4'hF;    // white
-                    r_blue <= 4'hF;
-                    r_green <= 4'hF;
+                    tmp_r <= 4'hF;    // white
+                    tmp_b <= 4'hF;
+                    tmp_g <= 4'hF;
                 end  // if (counter_y >= 414)
 			////////////////////////////////////////////////////////////////////////////////////// END SECTION 7
 		end  // always
@@ -342,13 +342,13 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
     // assign Vsync = (counter_y >= 10'd0 && counter_y < 10'd2) ? 1'b0:1'b1;   // vsync low for 2 counts
 endmodule
 
-module (clk,rst,but_R,but_G,but_B,out_R,out_G,out_B,Hsync,Vsync);
+module VGA_output(clk,rst,but_R,but_G,but_B,out_R,out_G,out_B,Hsync,Vsync);
     input clk,rst,but_R,but_G,but_B;
     output [3:0] out_R,out_G,out_B;
     output Hsync, Vsync;
     wire div_clk;
     clk_div u_clk_div(.clk(clk),.rst(rst),.div_clk(div_clk));
-    VGA_control u_VGA_control(.clk(div_clk), .rst(rst), .but_R(but_R), .but_G(but_G), .but_B(but_B), .out_R(out_R), .out_G(out_G), .out_B(out_B),.Hsync(Hsync),.Vsync(Vsync));
+    VGA_display u_VGA_display(.clk(div_clk), .rst(rst), .out_R(out_R), .out_G(out_G), .out_B(out_B),.Hsync(Hsync),.Vsync(Vsync));
 
 endmodule
 
