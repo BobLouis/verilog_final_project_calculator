@@ -93,13 +93,24 @@ module VGA_control(clk, rst, but_R, but_G, but_B, out_R, out_G, out_B,Hsync,Vsyn
 endmodule
 
 
-module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
-    input clk, rst;
+module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
+    input clk, rst,enb;
+    input [31:0] num;
     output reg[3:0] out_R, out_G, out_B;
     output reg Hsync, Vsync;
+    reg [5:0]i; 
     reg [9:0]counter_x, counter_y;
     reg [3:0]tmp_r,tmp_g,tmp_b;
-
+    reg [3:0]num1;
+    reg [3:0]num2;
+    reg [3:0]num3;
+    reg [3:0]num4;
+    reg [3:0]num5;
+    reg [3:0]num6;
+    reg [3:0]num7;
+    reg [3:0]num8;
+    reg [3:0]num9;
+    reg [3:0]num10;
     localparam [2499:0] zero = {
         50'b00000000000000000000000000000000000000000000000000,
         50'b00000000000000000000000000000000000000000000000000,
@@ -630,7 +641,6 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
         50'b00000000000000000000000000000000000000000000000000
     };
 
-    
     // counter and sync generation
     always @(posedge clk) // horizontal counter
     begin
@@ -687,6 +697,58 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
         end
 	end
 
+    //number tokenize
+    always @(num) 
+    begin
+        //initialize bcd to zero.
+        num1 = 4'b0;
+        num2 = 4'b0;
+        num3 = 4'b0;
+        num4 = 4'b0;
+        num5 = 4'b0;
+        num6 = 4'b0;
+        num7 = 4'b0;
+        num8 = 4'b0;
+        num9 = 4'b0;
+        num10 = 4'b0;
+        for (i = 0; i < 32; i = i+1) //run for 8 iterations
+        begin
+            //if a hex digit of 'bcd' is more than 4, add 3 to it.
+            if(num1[3:0] > 4'd4) 
+                num1[3:0] = num1[3:0] + 3;
+            if(num2[3:0] > 4'd4) 
+                num2[3:0] = num2[3:0] + 3;
+            if(num3[3:0] > 4'd4) 
+                num3[3:0] = num3[3:0] + 3;
+            if(num4[3:0] > 4'd4) 
+                num4[3:0] = num4[3:0] + 3;
+            if(num5[3:0] > 4'd4) 
+                num5[3:0] = num5[3:0] + 3;
+            if(num6[3:0] > 4'd4) 
+                num6[3:0] = num6[3:0] + 3;
+            if(num7[3:0] > 4'd4) 
+                num7[3:0] = num7[3:0] + 3;
+            if(num8[3:0] > 4'd4) 
+                num8[3:0] = num8[3:0] + 3;
+            if(num9[3:0] > 4'd4) 
+                num9[3:0] = num9[3:0] + 3;
+            if(num10[3:0] > 4'd4) 
+                num10[3:0] = num10[3:0] + 3;
+
+            //shift left one
+            num10 = {num10[2:0],num9[3]};
+            num9 = {num9[2:0],num8[3]};
+            num8 = {num8[2:0],num7[3]};
+            num7 = {num7[2:0],num6[3]};
+            num6 = {num6[2:0],num5[3]};
+            num5 = {num5[2:0],num4[3]};
+            num4 = {num4[2:0],num3[3]};
+            num3 = {num3[2:0],num2[3]};
+            num2 = {num2[2:0],num1[3]};
+            num1 = {num1[2:0],num[31-i]};
+        end
+    end
+
     // pattern generate
         always @ (posedge clk)
         begin
@@ -716,7 +778,7 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                         end  
                     end 
             ////////////////////////////////////////////////////////////////////////////////////// END SECTION 2
-            //display
+            //display_num
             ////////////////////////////////////////////////////////////////////////////////////// SECTION 3
             else if (counter_y >= 55 && counter_y < 105)
                 begin   
@@ -728,64 +790,139 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
                         end   
                     else if (counter_x >= 200 && counter_x < 250)
                         begin 
-                            tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
-                            tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                            if(enb)
+                            begin
+                                tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit10
+                                tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // black
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
                         end 
                     else if (counter_x >= 250 && counter_x < 300)
                         begin 
-                            tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                            tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
                             tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 300 && counter_x < 350)
                         begin 
-                            tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                            tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
                             tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 350 && counter_x < 400)
                         begin 
-                            tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                            tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
                             tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 400 && counter_x < 450)
                         begin 
-                            tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                            tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
                             tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 450 && counter_x < 500)
                         begin 
-                            tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                            tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
                             tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 500 && counter_x < 550)
                         begin 
-                            tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                            tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
                             tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 550 && counter_x < 600)
                         begin 
-                            tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                            tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
                             tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 600 && counter_x < 650)
                         begin 
-                            tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                            tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
                             tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                             tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
                         end
                     else if (counter_x >= 650 && counter_x < 700)
-                        begin 
-                            tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
-                            tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
+                        if(enb)
+                            begin
+                                case(num1)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
                     else if (counter_x >= 700 && counter_x < 705)
                         begin 
                             tmp_r <= 4'hF;    // white
@@ -827,20 +964,43 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
 	 end  // always
 						
 	// end pattern generate
-        
-    
-    
-
     // assign Hsync = (counter_x >= 10'd0 && counter_x < 10'd96) ? 1'b0:1'b1;  // hsync low for 96 counts                                                 
     // assign Vsync = (counter_y >= 10'd0 && counter_y < 10'd2) ? 1'b0:1'b1;   // vsync low for 2 counts
+endmodule
+
+module input_num (clk,rst,but,num,enb);
+    input clk,rst,but;
+    output reg[31:0]num;
+    output reg enb;
+    always @(posedge clk or negedge rst or posedge but) begin
+        if(!rst)
+        begin
+            enb <= 1'b0;
+            num <= 32'b0;
+        end 
+        else
+        begin
+            enb <= 1'b1;
+            if(but)
+            begin
+                num <= num + 32'd1;
+            end
+            else
+            begin 
+                num <= num;
+            end
+        end
+    end    
 endmodule
 
 module VGA_output(clk,rst,but_R,but_G,but_B,out_R,out_G,out_B,Hsync,Vsync);
     input clk,rst,but_R,but_G,but_B;
     output [3:0] out_R,out_G,out_B;
     output Hsync, Vsync;
-    wire div_clk;
+    wire div_clk,enb;
+    wire [31:0]num;
     clk_div u_clk_div(.clk(clk),.rst(rst),.div_clk(div_clk));
-    VGA_display u_VGA_display(.clk(div_clk), .rst(rst), .out_R(out_R), .out_G(out_G), .out_B(out_B),.Hsync(Hsync),.Vsync(Vsync));
+    input_num u_input_num(.clk(clk),.rst(rst),.but(but_B),.num(num),.enb(enb));
+    VGA_display u_VGA_display(.clk(div_clk), .rst(rst), .num(num), .enb(enb), .out_R(out_R), .out_G(out_G), .out_B(out_B),.Hsync(Hsync),.Vsync(Vsync));
 endmodule
 
