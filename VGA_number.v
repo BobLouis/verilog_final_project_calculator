@@ -630,6 +630,7 @@ module VGA_display(clk, rst, out_R, out_G, out_B,Hsync,Vsync);
         50'b00000000000000000000000000000000000000000000000000
     };
 
+    
     // counter and sync generation
     always @(posedge clk) // horizontal counter
     begin
