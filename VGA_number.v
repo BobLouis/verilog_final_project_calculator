@@ -714,26 +714,46 @@ module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
         for (i = 0; i < 32; i = i+1) //run for 8 iterations
         begin
             //if a hex digit of 'bcd' is more than 4, add 3 to it.
-            if(num1[3:0] > 4'd4) 
+            if(num1[3:0] > 4'd4)
+            begin
                 num1[3:0] = num1[3:0] + 3;
-            if(num2[3:0] > 4'd4) 
+            end    
+            if(num2[3:0] > 4'd4)
+            begin 
                 num2[3:0] = num2[3:0] + 3;
-            if(num3[3:0] > 4'd4) 
+            end    
+            if(num3[3:0] > 4'd4)
+            begin 
                 num3[3:0] = num3[3:0] + 3;
-            if(num4[3:0] > 4'd4) 
+            end    
+            if(num4[3:0] > 4'd4)
+            begin 
                 num4[3:0] = num4[3:0] + 3;
-            if(num5[3:0] > 4'd4) 
+            end    
+            if(num5[3:0] > 4'd4)
+            begin 
                 num5[3:0] = num5[3:0] + 3;
-            if(num6[3:0] > 4'd4) 
+            end    
+            if(num6[3:0] > 4'd4)
+            begin 
                 num6[3:0] = num6[3:0] + 3;
-            if(num7[3:0] > 4'd4) 
+            end    
+            if(num7[3:0] > 4'd4)
+            begin 
                 num7[3:0] = num7[3:0] + 3;
-            if(num8[3:0] > 4'd4) 
+            end    
+            if(num8[3:0] > 4'd4)
+            begin 
                 num8[3:0] = num8[3:0] + 3;
-            if(num9[3:0] > 4'd4) 
+            end    
+            if(num9[3:0] > 4'd4)
+            begin 
                 num9[3:0] = num9[3:0] + 3;
-            if(num10[3:0] > 4'd4) 
+            end    
+            if(num10[3:0] > 4'd4)
+            begin 
                 num10[3:0] = num10[3:0] + 3;
+            end 
 
             //shift left one
             num10 = {num10[2:0],num9[3]};
