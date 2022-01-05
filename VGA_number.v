@@ -1589,13 +1589,20 @@ module input_num (clk,rst,but,num,enb);
         end
     end
     
-	 always @(posedge but)
+	 always @(posedge but or negedge rst)
 	 begin
-		tmp_num <= tmp_num + 32'd1;
+		if(!rst)
+		begin
+			tmp_num <= 32'd0;
+		end
+		else
+		begin
+			tmp_num <= tmp_num + 32'd1;
+		end
 	 end
 endmodule
 
-module num2bcd(num,clk, output_num1, output_num2, output_num3, output_num4, output_num5, output_num6, output_num7, output_num8, output_num9, output_num0);
+module num2bcd(num,clk, output_num0, output_num1, output_num2, output_num3, output_num4, output_num5, output_num6, output_num7, output_num8, output_num9);
     input [31:0] num;
     input clk;
     output reg [3:0]output_num0;
@@ -1742,7 +1749,7 @@ module VGA_output(clk,rst,but_R,but_G,but_B,out_R,out_G,out_B,Hsync,Vsync);
     wire [3:0]num1,num2,num3,num4,num5,num6,num7,num8,num9,num10;
     clk_div u_clk_div(.clk(clk),.rst(rst),.div_clk(div_clk));
     input_num u_input_num(.clk(clk),.rst(rst),.but(but_B),.num(num),.enb(enb));
-    num2bcd u_num2bcd(.num(num),.clk(clk), .output_num1(num1), .output_num2(num2), .output_num3(num3), .output_num4(num4), .output_num5(num5), .output_num6(num6), .output_num7(num7), .output_num8(num8), .output_num9(num9), .output_num0(num10));
+    num2bcd u_num2bcd(.num(num),.clk(clk), .output_num0(num1), .output_num1(num2), .output_num2(num3), .output_num3(num4), .output_num4(num5), .output_num5(num6), .output_num6(num7), .output_num7(num8), .output_num8(num9), .output_num9(num10));
     VGA_display u_VGA_display(.clk(div_clk), .rst(rst), .num1(num1),.num2(num2),.num3(num3),.num4(num4),.num5(num5),.num6(num6),.num7(num7),.num8(num8),.num9(num9),.num10(num10), .enb(enb), .out_R(out_R), .out_G(out_G), .out_B(out_B),.Hsync(Hsync),.Vsync(Vsync));
 endmodule
 
