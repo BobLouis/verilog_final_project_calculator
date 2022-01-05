@@ -763,7 +763,10 @@ module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
                 num1 <= tmp_num1;
             end
         end
+    //function
+    
 
+    
     // pattern generate
         always @ (posedge clk)
         begin
@@ -803,70 +806,655 @@ module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
                             tmp_b <= 4'hF;
                             tmp_g <= 4'hF;
                         end   
-                    else if (counter_x >= 200 && counter_x < 250)
-                        begin 
-                            if(enb)
+                    else if (counter_x >= 200 && counter_x < 250) //num10
+                        if(enb)
                             begin
-                                tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit10
-                                tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                                tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                case(num10)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
                             end
                             else
                             begin
-                                tmp_r <= 4'h0;    // black
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end 
+                    else if (counter_x >= 250 && counter_x < 300) //num9
+                        if(enb)
+                            begin
+                                case(num9)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
                                 tmp_b <= 4'h0;
                                 tmp_g <= 4'h0;
                             end
-                        end 
-                    else if (counter_x >= 250 && counter_x < 300)
-                        begin 
-                            tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
-                            tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 300 && counter_x < 350)
-                        begin 
-                            tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
-                            tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 350 && counter_x < 400)
-                        begin 
-                            tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
-                            tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 400 && counter_x < 450)
-                        begin 
-                            tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
-                            tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 450 && counter_x < 500)
-                        begin 
-                            tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
-                            tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 500 && counter_x < 550)
-                        begin 
-                            tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
-                            tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 550 && counter_x < 600)
-                        begin 
-                            tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
-                            tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 600 && counter_x < 650)
-                        begin 
-                            tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
-                            tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                            tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
-                        end
-                    else if (counter_x >= 650 && counter_x < 700)
+                    else if (counter_x >= 300 && counter_x < 350) //num8
+                        if(enb)
+                            begin
+                                case(num8)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
+                    else if (counter_x >= 350 && counter_x < 400) //num7
+                        if(enb)
+                            begin
+                                case(num7)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
+                    else if (counter_x >= 400 && counter_x < 450) //num6
+                        if(enb)
+                            begin
+                                case(num6)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
+                    else if (counter_x >= 450 && counter_x < 500) //num5
+                        if(enb)
+                            begin
+                                case(num5)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
+                    else if (counter_x >= 500 && counter_x < 550) //num4
+                        if(enb)
+                            begin
+                                case(num4)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
+                    else if (counter_x >= 550 && counter_x < 600) //num3
+                        if(enb)
+                            begin
+                                case(num3)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
+                    else if (counter_x >= 600 && counter_x < 650) //num2
+                        if(enb)
+                            begin
+                                case(num2)
+                                    4'd0:
+                                    begin
+                                        tmp_r <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit0
+                                        tmp_b <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (zero[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd1:
+                                    begin
+                                        tmp_r <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit1
+                                        tmp_b <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (one[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd2:
+                                    begin
+                                        tmp_r <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit2
+                                        tmp_b <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (two[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd3:
+                                    begin
+                                        tmp_r <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit3
+                                        tmp_b <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (three[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd4:
+                                    begin
+                                        tmp_r <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit4
+                                        tmp_b <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (four[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd5:
+                                    begin
+                                        tmp_r <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit5
+                                        tmp_b <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (five[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd6:
+                                    begin
+                                        tmp_r <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit6
+                                        tmp_b <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (six[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd7:
+                                    begin
+                                        tmp_r <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit7
+                                        tmp_b <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (seven[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd8:
+                                    begin
+                                        tmp_r <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit8
+                                        tmp_b <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (eight[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                    4'd9:
+                                    begin
+                                        tmp_r <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;    // digit9
+                                        tmp_b <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                        tmp_g <= (nine[(counter_y-55)*50+(counter_x-300)]) ? 4'hF:4'h0;
+                                    end
+                                endcase
+                            end
+                            else
+                            begin
+                                tmp_r <= 4'h0;    // blank
+                                tmp_b <= 4'h0;
+                                tmp_g <= 4'h0;
+                            end
+                    else if (counter_x >= 650 && counter_x < 700) //num1
                         if(enb)
                             begin
                                 case(num1)
