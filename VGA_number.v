@@ -987,7 +987,8 @@ module input_num (clk,rst,but,num,enb);
     input clk,rst,but;
     output reg[31:0]num;
     output reg enb;
-    always @(posedge clk or negedge rst or posedge but) begin
+	 reg [31:0]tmp_num;
+    always @(posedge clk or negedge rst ) begin
         if(!rst)
         begin
             enb <= 1'b0;
@@ -996,16 +997,14 @@ module input_num (clk,rst,but,num,enb);
         else
         begin
             enb <= 1'b1;
-            if(but)
-            begin
-                num <= num + 32'd1;
-            end
-            else
-            begin 
-                num <= num;
-            end
+            num <= tmp_num;
         end
-    end    
+    end
+    
+	 always @(posedge but)
+	 begin
+		tmp_num <= tmp_num + 32'd1;
+	 end
 endmodule
 
 module VGA_output(clk,rst,but_R,but_G,but_B,out_R,out_G,out_B,Hsync,Vsync);
