@@ -98,9 +98,9 @@ module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
     input [31:0] num;
     output reg[3:0] out_R, out_G, out_B;
     output reg Hsync, Vsync;
-    reg [5:0]i; 
     reg [9:0]counter_x, counter_y;
     reg [3:0]tmp_r,tmp_g,tmp_b;
+    reg [31:0]old_num;
     reg [3:0]num1;
     reg [3:0]num2;
     reg [3:0]num3;
@@ -111,6 +111,19 @@ module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
     reg [3:0]num8;
     reg [3:0]num9;
     reg [3:0]num10;
+
+    reg [3:0]tmp_num1;
+    reg [3:0]tmp_num2;
+    reg [3:0]tmp_num3;
+    reg [3:0]tmp_num4;
+    reg [3:0]tmp_num5;
+    reg [3:0]tmp_num6;
+    reg [3:0]tmp_num7;
+    reg [3:0]tmp_num8;
+    reg [3:0]tmp_num9;
+    reg [3:0]tmp_num10;
+    reg [5:0]i;
+    reg [71:0]shift_reg;  
     localparam [2499:0] zero = {
         50'b00000000000000000000000000000000000000000000000000,
         50'b00000000000000000000000000000000000000000000000000,
@@ -697,77 +710,59 @@ module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
         end
 	end
 
-    //number tokenize
-    always @(num) 
-    begin
-        //initialize bcd to zero.
-        num1 = 4'b0;
-        num2 = 4'b0;
-        num3 = 4'b0;
-        num4 = 4'b0;
-        num5 = 4'b0;
-        num6 = 4'b0;
-        num7 = 4'b0;
-        num8 = 4'b0;
-        num9 = 4'b0;
-        num10 = 4'b0;
-        for (i = 0; i < 32; i = i+1) //run for 8 iterations
+    //bin 2 BCD
+    always @(posedge clk)
         begin
-            //if a hex digit of 'bcd' is more than 4, add 3 to it.
-            if(num1[3:0] > 4'd4)
+            //initialize bcd to zero.
+            if(i == 6'd0 && (old_num != num))
             begin
-                num1[3:0] = num1[3:0] + 3;
-            end    
-            if(num2[3:0] > 4'd4)
-            begin 
-                num2[3:0] = num2[3:0] + 3;
-            end    
-            if(num3[3:0] > 4'd4)
-            begin 
-                num3[3:0] = num3[3:0] + 3;
-            end    
-            if(num4[3:0] > 4'd4)
-            begin 
-                num4[3:0] = num4[3:0] + 3;
-            end    
-            if(num5[3:0] > 4'd4)
-            begin 
-                num5[3:0] = num5[3:0] + 3;
-            end    
-            if(num6[3:0] > 4'd4)
-            begin 
-                num6[3:0] = num6[3:0] + 3;
-            end    
-            if(num7[3:0] > 4'd4)
-            begin 
-                num7[3:0] = num7[3:0] + 3;
-            end    
-            if(num8[3:0] > 4'd4)
-            begin 
-                num8[3:0] = num8[3:0] + 3;
-            end    
-            if(num9[3:0] > 4'd4)
-            begin 
-                num9[3:0] = num9[3:0] + 3;
-            end    
-            if(num10[3:0] > 4'd4)
-            begin 
-                num10[3:0] = num10[3:0] + 3;
-            end 
+                shift_reg <= 72'd0;
+                old_num <= num;
+                shift_reg[31:0] <= num;
+                i <= i + 6'd1;
+            end
+            else if(i<33 && i>0)
+            begin
+                if(tmp_num10 >= 5) tmp_num10 <= tmp_num10 + 4'd3;
+                if(tmp_num9 >= 5) tmp_num9 <= tmp_num9 + 4'd3;
+                if(tmp_num8 >= 5) tmp_num8 <= tmp_num8 + 4'd3;
+                if(tmp_num7 >= 5) tmp_num7 <= tmp_num7 + 4'd3;
+                if(tmp_num6 >= 5) tmp_num6 <= tmp_num6 + 4'd3;
+                if(tmp_num5 >= 5) tmp_num5 <= tmp_num5 + 4'd3;
+                if(tmp_num4 >= 5) tmp_num4 <= tmp_num4 + 4'd3;
+                if(tmp_num3 >= 5) tmp_num3 <= tmp_num3 + 4'd3;
+                if(tmp_num2 >= 5) tmp_num2 <= tmp_num2 + 4'd3;
+                if(tmp_num1 >= 5) tmp_num1 <= tmp_num1 + 4'd3;
 
-            //shift left one
-            num10 = {num10[2:0],num9[3]};
-            num9 = {num9[2:0],num8[3]};
-            num8 = {num8[2:0],num7[3]};
-            num7 = {num7[2:0],num6[3]};
-            num6 = {num6[2:0],num5[3]};
-            num5 = {num5[2:0],num4[3]};
-            num4 = {num4[2:0],num3[3]};
-            num3 = {num3[2:0],num2[3]};
-            num2 = {num2[2:0],num1[3]};
-            num1 = {num1[2:0],num[31-i]};
+                shift_reg [71:32] <= {tmp_num10,tmp_num9,tmp_num8,tmp_num7,tmp_num6,tmp_num5,tmp_num4,tmp_num3,tmp_num2,tmp_num1};
+                shift_reg <= shift_reg << 1;
+                tmp_num10 <= shift_reg[71:68];
+                tmp_num9 <= shift_reg[67:64];
+                tmp_num8 <= shift_reg[63:60];
+                tmp_num7 <= shift_reg[59:56];
+                tmp_num6 <= shift_reg[55:52];
+                tmp_num5 <= shift_reg[51:48];
+                tmp_num4 <= shift_reg[47:44];
+                tmp_num3 <= shift_reg[43:40];
+                tmp_num2 <= shift_reg[39:36];
+                tmp_num1 <= shift_reg[35:32];
+                i <= i + 6'd1;
+            end
+            else
+            begin
+                i <= 6'd0;
+                num10 <= tmp_num10;
+                num9 <= tmp_num9;
+                num8 <= tmp_num8;
+                num7 <= tmp_num7;
+                num6 <= tmp_num6;
+                num5 <= tmp_num5;
+                num4 <= tmp_num4;
+                num3 <= tmp_num3;
+                num2 <= tmp_num2;
+                num1 <= tmp_num1;
+            end
         end
-    end
 
     // pattern generate
         always @ (posedge clk)
