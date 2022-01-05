@@ -721,18 +721,18 @@ module VGA_display(clk, rst, num, enb, out_R, out_G, out_B,Hsync,Vsync);
                 shift_reg[31:0] <= num;
                 i <= i + 6'd1;
             end
-            else if(i<33 && i>0)
+            else if(i<6'd33 && i>6'd0)
             begin
-                if(tmp_num10 >= 5) tmp_num10 <= tmp_num10 + 4'd3;
-                if(tmp_num9 >= 5) tmp_num9 <= tmp_num9 + 4'd3;
-                if(tmp_num8 >= 5) tmp_num8 <= tmp_num8 + 4'd3;
-                if(tmp_num7 >= 5) tmp_num7 <= tmp_num7 + 4'd3;
-                if(tmp_num6 >= 5) tmp_num6 <= tmp_num6 + 4'd3;
-                if(tmp_num5 >= 5) tmp_num5 <= tmp_num5 + 4'd3;
-                if(tmp_num4 >= 5) tmp_num4 <= tmp_num4 + 4'd3;
-                if(tmp_num3 >= 5) tmp_num3 <= tmp_num3 + 4'd3;
-                if(tmp_num2 >= 5) tmp_num2 <= tmp_num2 + 4'd3;
-                if(tmp_num1 >= 5) tmp_num1 <= tmp_num1 + 4'd3;
+                if(tmp_num10 >= 4'd5) tmp_num10 <= tmp_num10 + 4'd3;
+                if(tmp_num9 >= 4'd5) tmp_num9 <= tmp_num9 + 4'd3;
+                if(tmp_num8 >= 4'd5) tmp_num8 <= tmp_num8 + 4'd3;
+                if(tmp_num7 >= 4'd5) tmp_num7 <= tmp_num7 + 4'd3;
+                if(tmp_num6 >= 4'd5) tmp_num6 <= tmp_num6 + 4'd3;
+                if(tmp_num5 >= 4'd5) tmp_num5 <= tmp_num5 + 4'd3;
+                if(tmp_num4 >= 4'd5) tmp_num4 <= tmp_num4 + 4'd3;
+                if(tmp_num3 >= 4'd5) tmp_num3 <= tmp_num3 + 4'd3;
+                if(tmp_num2 >= 4'd5) tmp_num2 <= tmp_num2 + 4'd3;
+                if(tmp_num1 >= 4'd5) tmp_num1 <= tmp_num1 + 4'd3;
 
                 shift_reg [71:32] <= {tmp_num10,tmp_num9,tmp_num8,tmp_num7,tmp_num6,tmp_num5,tmp_num4,tmp_num3,tmp_num2,tmp_num1};
                 shift_reg <= shift_reg << 1;
