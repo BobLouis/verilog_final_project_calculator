@@ -1687,37 +1687,16 @@ module num2bcd(num,clk, output_num0, output_num1, output_num2, output_num3, outp
             if(inter_num0 >=4'd5)
                 inter_num0 = inter_num0 + 4'd3;
             
-            inter_num9 = inter_num9 << 1;
-            inter_num9[0] = inter_num8[3];
-            // inter_num9 = {inter_num9[2:0], inter_num8[3]};
-            
-            inter_num8 = inter_num8 << 1;
-            inter_num8[0] = inter_num7[3];
-            
-            inter_num7 = inter_num7 << 1;
-            inter_num7[0] = inter_num6[3];
-            
-            inter_num6 = inter_num6 << 1;
-            inter_num6[0] = inter_num5[3];
-
-            inter_num5 = inter_num5 << 1;
-            inter_num5[0] = inter_num4[3];
-
-
-            inter_num4 = inter_num4 << 1;
-            inter_num4[0] = inter_num3[3];
-
-            inter_num3 = inter_num3 << 1;
-            inter_num3[0] = inter_num2[3];
-            
-            inter_num2 = inter_num2 << 1;
-            inter_num2[0] = inter_num1[3];
-            
-            inter_num1 = inter_num1 << 1;
-            inter_num1[0] = inter_num0[3];
-
-            inter_num0 = inter_num0 << 1;
-            inter_num0[0] = temp_num[31];
+            inter_num9 = {inter_num9[2:0], inter_num8[3]};
+            inter_num8 = {inter_num8[2:0], inter_num7[3]};
+            inter_num7 = {inter_num7[2:0], inter_num6[3]};
+            inter_num6 = {inter_num6[2:0], inter_num5[3]};
+            inter_num5 = {inter_num5[2:0], inter_num4[3]};
+            inter_num4 = {inter_num4[2:0], inter_num3[3]};
+            inter_num3 = {inter_num3[2:0], inter_num2[3]};
+            inter_num2 = {inter_num2[2:0], inter_num1[3]};
+            inter_num1 = {inter_num1[2:0], inter_num0[3]};
+            inter_num0 = {inter_num0[2:0], temp_num[31]};
 
             temp_num = temp_num << 1; 
             state = state + 9'd1;
@@ -1725,16 +1704,64 @@ module num2bcd(num,clk, output_num0, output_num1, output_num2, output_num3, outp
             if(state == 9'd33)
             begin
                 state <= 9'd0;
+
+                if(inter_num9 == 4'b0000)
+                begin
+                    output_num9 <= 4'b1111;
+                    if(inter_num8 == 4'b0000)
+                    begin
+                        output_num8 <= 4'b1111;
+                        if(inter_num7 == 4'b0000)
+                        begin
+                            output_num7 <= 4'b1111;
+                            if(inter_num6 == 4'b0000)
+                            begin
+                                output_num6 <= 4'b1111;
+                                if(inter_num5 == 4'b0000)
+                                begin
+                                    output_num5 <= 4'b1111;
+                                    if(inter_num4 == 4'b0000)
+                                    begin
+                                        output_num4 <= 4'b1111;
+                                        if(inter_num3 == 4'b0000)
+                                        begin
+                                            output_num3 <= 4'b1111;
+                                            if(inter_num2 == 4'b0000)
+                                            begin
+                                                output_num2 <= 4'b1111;
+                                                if(inter_num1 == 4'b0000)
+                                                begin
+                                                    output_num1 <= 4'b1111;
+                                                end
+                                                else
+                                                    output_num1 <= inter_num1; 
+                                            end
+                                            else
+                                                output_num2 <= inter_num2;
+                                        end
+                                        else
+                                            output_num3 <= inter_num3;
+                                    end
+                                    else
+                                        output_num4 <= inter_num4;
+                                end
+                                else
+                                    output_num5 <= inter_num5;
+                            end
+                            else
+                                output_num6 <= inter_num6;
+                        end
+                        else
+                            output_num7 <= inter_num7;
+                    end
+                    else
+                        output_num8 <= inter_num8;
+                end
+                else
+                    output_num9 <= inter_num9;  
+                
+                
                 output_num0 <= inter_num0;
-                output_num1 <= inter_num1;
-                output_num2 <= inter_num2;
-                output_num3 <= inter_num3;
-                output_num4 <= inter_num4;
-                output_num5 <= inter_num5;
-                output_num6 <= inter_num6;
-                output_num7 <= inter_num7;
-                output_num8 <= inter_num8;
-                output_num9 <= inter_num9;
             end
         end
     end
