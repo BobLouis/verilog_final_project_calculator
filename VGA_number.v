@@ -2022,29 +2022,30 @@ module Checkkeypad(clk_div,reset,keypadRow,keypadCol,keypadBuf);
 		if (!reset)
 		begin
 			keypadRow <= 4'b1111;
-			keypadBuf <= 0;
+			keypadBuf <= 4'b0000;
 		end
 		else begin
 			case ({keypadRow,keypadCol})
-				8'b1110_1110: keypadBuf <= 5'h7;
-				8'b1110_1101: keypadBuf <= 5'h4;
-				8'b1110_1011: keypadBuf <= 5'h1;
-				8'b1110_0111: keypadBuf <= 5'h0;
+				8'b1110_1110: keypadBuf <= 4'h7;
+				8'b1110_1101: keypadBuf <= 4'h4;
+				8'b1110_1011: keypadBuf <= 4'h1;
+				8'b1110_0111: keypadBuf <= 4'h0;
 				
-				8'b1101_1110: keypadBuf <= 5'h8;
-				8'b1101_1101: keypadBuf <= 5'h5;
-				8'b1101_1011: keypadBuf <= 5'h2;
-				8'b1101_0111: keypadBuf <= 5'ha;
+				8'b1101_1110: keypadBuf <= 4'h8;
+				8'b1101_1101: keypadBuf <= 4'h5;
+				8'b1101_1011: keypadBuf <= 4'h2;
+				8'b1101_0111: keypadBuf <= 4'ha;
 				
-				8'b1011_1110: keypadBuf <= 5'h9;
-				8'b1011_1101: keypadBuf <= 5'h6;
-				8'b1011_1011: keypadBuf <= 5'h3;
-				8'b1011_0111: keypadBuf <= 5'hb;
+				8'b1011_1110: keypadBuf <= 4'h9;
+				8'b1011_1101: keypadBuf <= 4'h6;
+				8'b1011_1011: keypadBuf <= 4'h3;
+				8'b1011_0111: keypadBuf <= 4'hb;
 				
-				8'b0111_1110: keypadBuf <= 5'hc;
-				8'b0111_1101: keypadBuf <= 5'hd;
-				8'b0111_1011: keypadBuf <= 5'he;
-				8'b0111_0111: keypadBuf <= 5'hf;
+				8'b0111_1110: keypadBuf <= 4'hc;
+				8'b0111_1101: keypadBuf <= 4'hd;
+				8'b0111_1011: keypadBuf <= 4'he;
+				8'b0111_0111: keypadBuf <= 4'hf;
+				
 				default: keypadBuf <= keypadBuf;
 				
 			endcase
@@ -2069,38 +2070,13 @@ module calculate(clk_div,reset,keypadBuf,keypadCol,out,enb);
     output reg[31:0] out;
     reg[1:0] operand;
     reg flag,flag2;
-	 reg[2:0]counter;
+	 reg[32:0]counter;
     output reg enb;
 
 	 always@(posedge clk_div or negedge reset) begin
 			if (!reset)
 			begin
 					flag2 <= 0;
-			end
-			else
-			begin
-					if(keypadCol != 4'hf)
-					begin
-							flag2 <= 1;
-							counter <= 0;
-					end
-					
-					else
-					begin
-					
-							counter <= counter + 1;
-							if(counter == 7)begin
-									flag2 <= 0;
-							end
-					
-					end
-					
-			end
-	 end
-	 always@(posedge flag2 or negedge reset) begin
-			if (!reset)
-			begin
-			
 					flag = 0;
 					parameter1 <= 0;
 					parameter2 <= 0;
@@ -2110,58 +2086,85 @@ module calculate(clk_div,reset,keypadBuf,keypadCol,out,enb);
 			end
 			else
 			begin
-				enb <= 1;
-						case (keypadBuf)
-							 5'ha:
-							 begin
-								  operand <= 0;
-								  flag <= 1;
-							 end
-							 5'hb:
-							 begin
-								  operand <= 1;
-								  flag <= 1;
-							 end
-							 5'hc:
-							 begin
-								  operand <= 2;
-								  flag <= 1;
-							 end
-							 5'hd:
-							 begin
-								  operand <= 3;
-								  flag <= 1;
-							 end
-							 5'he:
-								  case(operand)
-										0:
-											 out <= parameter1 + parameter2;
-										1:
-											 out <= parameter1 - parameter2;
-										2:
-											 out <= parameter1 * parameter2;
-										3:
-											 out <= parameter1 / parameter2;
-								  endcase
-							 default:
+					if(keypadCol != 4'hf && flag2 == 0)
+					begin
+							flag2 <= 1;
+							counter <= 0;
+							enb <= 1;
+							case (keypadBuf)
+								 4'ha:
 								 begin
-									if(flag == 0)begin
-										parameter1 <= parameter1 *10 + keypadBuf;
-										out <= parameter1 *10 + keypadBuf;
+									  operand <= 0;
+									  flag <= 1;
+									  enb <= 0;
+								 end
+								 4'hb:
+								 begin
+									  operand <= 1;
+									  flag <= 1;
+									  enb <= 0;
+								 end
+								 4'hc:
+								 begin
+									  operand <= 2;
+									  flag <= 1;
+									  enb <= 0;
+								 end
+								 4'hd:
+								 begin
+									  operand <= 3;
+									  flag <= 1;
+									  enb <= 0;
+								 end
+								 4'he:
+									  case(operand)
+											0:
+												 out <= parameter1 + parameter2;
+											1:
+												 out <= parameter1 - parameter2;
+											2:
+												 out <= parameter1 * parameter2;
+											3:
+												 out <= parameter1 / parameter2;
+									  endcase
+									  
+								 4'hf:
+								 begin
+										flag = 0;
+										parameter1 <= 0;
+										parameter2 <= 0;
+										operand <= 0;
+										out <= 0;
+										enb <= 0;
+								 end
+								 default:
+									 begin
+										if(flag == 0)begin
+											parameter1 <= parameter1 *10 + keypadBuf;
+											out <= parameter1 *10 + keypadBuf;
+										end
+										else
+										begin
+											parameter2 <= parameter2 *10 + keypadBuf;
+											out <= parameter2;
+										end
 									end
-									else
-									begin
-										parameter2 <= parameter2 *10 + keypadBuf;
-										out <= parameter2;
-									end
-								end
-								  
-						endcase
-				  
-				
+									  
+							endcase
+					end
+					
+					else
+					begin
+					
+							counter <= counter + 1;
+							if(counter == 25000000)begin
+									flag2 <= 0;
+							end
+					
+					end
+					
 			end
-	
-	end
+	 end
 	
 	 
 endmodule
@@ -2180,14 +2183,14 @@ module VGA_output(clk,rst,but_R,but_G,but_B,out_R,out_G,out_B,Hsync,Vsync,keypad
 		
 		input [3:0]keypadCol;
 		output [3:0]keypadRow;
-		wire [4:0]keypadBuf;
+		wire [3:0]keypadBuf;
 		
 		Freq_div u_Freq_div(.clk(clk),.clk_div(clk_div));
 		//Freq_div2 u_Freq_div2(.clk(clk),.clk_div(clk_div2));
 		clk_div u_clk_div(.clk(clk),.rst(rst),.div_clk(div_clk));
 		
 		Checkkeypad(.clk_div(clk_div),.reset(rst),.keypadRow(keypadRow),.keypadCol(keypadCol),.keypadBuf(keypadBuf));
-		calculate(.clk_div(div_clk),.reset(rst),.keypadBuf(keypadBuf),.keypadCol(keypadCol),.out(num),.enb(enb));
+		calculate(.clk_div(clk),.reset(rst),.keypadBuf(keypadBuf),.keypadCol(keypadCol),.out(num),.enb(enb));
 		
 		//input_num u_input_num(.clk(clk),.rst(rst),.but(but_B),.num(num),.enb(enb));
 		
